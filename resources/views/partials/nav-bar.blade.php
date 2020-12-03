@@ -3,6 +3,12 @@
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Hacker News Desafio') }}
         </a>
+        <!-- Navs Link -->
+        <ul class="navbar-nav mr-auto">
+          <li class="{{ request()->routeIs('show-favorites') ? 'active' : 'nav-item' }}">
+            <a class="nav-link" href="{{ route('show-favorites') }}">Favorites <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>

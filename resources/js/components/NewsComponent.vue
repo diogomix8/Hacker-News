@@ -12,7 +12,15 @@
           <a href="{ item.url }" target="_blank">{{ item.url }}</a>
         </div>
         <div class="card-footer">
-          <button class="btn btn-warning">Favorito</button>
+          
+            <button
+              type="button"
+              @click="newFavorite(item)"
+              class="btn btn-warning"
+            >
+              Favorito
+            </button>
+
         </div>
       </div>
     </div>
@@ -27,15 +35,16 @@ export default {
       arrayNews: [],
       loading: true,
       errored: false,
+      news:{
+        title: "",
+        url: "",
+        isFavorite:""
+      }
     };
   },
   computed: {},
   watch: {
     arrayNewsLastest() {
-      var news = {
-        title: "",
-        url: "",
-      };
       this.arrayNewsLastest.forEach((element) => {
         axios
           .get(
@@ -50,7 +59,22 @@ export default {
     },
   },
   methods: {
-    deMenorAMayor(elem1, elem2) {return elem1-elem2;},
+    deMayorAMenor(elem1, elem2) {
+      return elem2 - elem1;
+    },
+    newFavorite(item) {
+      axios
+        .post("/favorites/new", {
+          title: item.title,
+          url: item.url,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     getNewsLastest() {
       axios
         .get(
@@ -58,11 +82,10 @@ export default {
         )
         .then((response) => {
           this.arrayNewsLastest = response.data;
-          console.log(this.arrayNewsLastest.sort(this.deMenorAMayor));
-          var rev = this.arrayNewsLastest.sort(this.deMenorAMayor);
-          console.log('revers'+rev);
+          console.log(this.arrayNewsLastest.sort(this.deMayorAMenor));
+          var rev = this.arrayNewsLastest.sort(this.deMayorAMenor);
           this.arrayNewsLastest.reverse();
-          this.arrayNewsLastest.splice(9,this.arrayNewsLastest.length-10);
+          this.arrayNewsLastest.splice(9, this.arrayNewsLastest.length - 10);
         })
         .catch((error) => {
           console.log(error);
