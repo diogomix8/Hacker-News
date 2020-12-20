@@ -46,7 +46,7 @@ class FavoriteController extends Controller
     )
     {
         $favorite = $favoriteRepository->searchFavorite($request);
-        if(isset($favorite))
+        if(empty($favorite))
         {
             $favoriteRepository->updateFavorite($request->title, Auth::id());
         }else{
